@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотека - мир кино</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Заголовок с логотипом */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #1a1a1a;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            border-bottom: 3px solid #d32f2f;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            color: #d32f2f;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            letter-spacing: 2px;
+        }
+        
+        /* Навигационные кнопки */
+        .nav-buttons {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .nav-button {
+            flex: 1;
+            padding: 18px 10px;
+            background-color: #222;
+            color: #f0f0f0;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border-right: 1px solid #333;
+        }
+        
+        .nav-button:last-child {
+            border-right: none;
+        }
+        
+        .nav-button:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-button:nth-child(1) {
+            background-color: #1a1a1a;
+        }
+        
+        .nav-button:nth-child(2) {
+            background-color: #222;
+        }
+        
+        .nav-button:nth-child(3) {
+            background-color: #1a1a1a;
+        }
+        
+        .nav-button:nth-child(4) {
+            background-color: #222;
+        }
+        
+        /* Секция с картинкой и описанием */
+        .image-section {
+            display: flex;
+            margin: 40px 0;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid #333;
+        }
+        
+        .image-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d32f2f;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .main-image {
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+        }
+        
+        .description-container {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .description-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 20px;
+        }
+        
+        .description-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+        }
+        
+        /* Секция со слайдером картинок */
+        .slider-section {
+            margin: 50px 0;
+            padding: 30px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid #333;
+            position: relative;
+        }
+        
+        .slider-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d32f2f;
+            margin-bottom: 30px;
+        }
+        
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .slide-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            background-color: #2a2a2a;
+        }
+        
+        .slide-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+        }
+        
+        .slide-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d32f2f;
+            margin-bottom: 5px;
+        }
+        
+        .slide-description {
+            font-size: 1rem;
+            color: #ccc;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .slider-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-btn:hover {
+            background-color: #ff5252;
+            transform: scale(1.1);
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #555;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dot.active {
+            background-color: #d32f2f;
+        }
+        
+        /* Секция с центральной картинкой */
+        .center-image-section {
+            margin: 40px 0 60px 0;
+            text-align: center;
+        }
+        
+        .center-image-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+        
+        .center-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            border-top: 3px solid #d32f2f;
+        }
+        
+        .footer-links {
+            margin-top: 15px;
+        }
+        
+        .footer-links a {
+            color: #d32f2f;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .nav-button {
+                border-right: none;
+                border-bottom: 1px solid #333;
+            }
+            
+            .nav-button:last-child {
+                border-bottom: none;
+            }
+            
+            .image-section {
+                flex-direction: column;
+            }
+            
+            .description-container {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 2.8rem;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .slide-image {
+                height: 300px;
+            }
+            
+            .main-image {
+                height: 250px;
+            }
+            
+            .center-image {
+                height: 250px;
+            }
+        }
+        
+        /* Дополнительные элементы для темы фильмов */
+        .movie-rating {
+            display: inline-block;
+            background-color: #d32f2f;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .genre-tag {
+            display: inline-block;
+            background-color: #333;
+            color: #ccc;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+        
+        /* Запасные изображения на случай ошибки загрузки */
+        .image-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #2a2a2a;
+            color: #888;
+            font-size: 1.2rem;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Заголовок с логотипом -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="logo-text">КИНОТЕКА - МИР КИНО</div>
+            
+            <!-- Навигационные кнопки -->
+            <div class="nav-buttons">
+                <button class="nav-button">Новинки</button>
+                <button class="nav-button">Коллекция</button>
+                <button class="nav-button">Режиссеры</button>
+                <button class="nav-button">Кинотеатры</button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Секция с картинкой и описанием -->
+        <section class="image-section">
+            <div class="image-container">
+                <div class="image-title">Дюна: Часть вторая</div>
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                     alt="Кадр из фильма Дюна" 
+                     class="main-image"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a1a/d32f2f?text=Дюна%3A+Часть+вторая';">
+                <div class="movie-rating">IMDb: 8.7/10</div>
+                <div>
+                    <span class="genre-tag">Фантастика</span>
+                    <span class="genre-tag">Драма</span>
+                    <span class="genre-tag">Приключения</span>
+                </div>
+            </div>
+            <div class="description-container">
+                <div class="description-title">Эпическое продолжение саги</div>
+                <div class="description-text">
+                    <p>"Дюна: Часть вторая" — продолжение эпической экранизации романа Фрэнка Герберта, снятое Дени Вильнёвом. Фильм продолжает историю Пола Атрейдеса, который объединяется с фременами и своей возлюбленной Чани, чтобы отомстить западням, уничтожившим его семью.</p>
+                    <p style="margin-top: 15px;">В этой части Пол сталкивается с выбором между любовью своей жизни и судьбой всей известной вселенной, пытаясь предотвратить ужасное будущее, которое лишь он один может предвидеть.</p>
+                    <p style="margin-top: 15px;">Фильм получил восторженные отзывы критиков за визуальные эффекты, режиссуру и актерскую игру, особенно Тимоти Шаламе и Зендаи.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция со слайдером картинок -->
+        <section class="slider-section">
+            <div class="slider-title">Популярные фильмы этого сезона</div>
+            <div class="slider-container">
+                <div class="slides" id="slides">
+                    <!-- Слайд 1 -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Киноаппарат и кинолента" 
+                             class="slide-image"
+                             onerror="this.onerror=null; this.src='https://placehold.co/1200x500/1a1a1a/d32f2f?text=Оскар+2024';">
+                        <div class="slide-info">
+                            <div class="slide-title">Оскар 2024 - Лучший фильм</div>
+                            <div class="slide-description">Фильм "Оппенгеймер" получил 7 наград, включая главную - "Лучший фильм".</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Слайд 2 -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Кинотеатр" 
+                             class="slide-image"
+                             onerror="this.onerror=null; this.src='https://placehold.co/1200x500/1a1a1a/d32f2f?text=Кинотеатры';">
+                        <div class="slide-info">
+                            <div class="slide-title">Лучшие кинотеатры 2024</div>
+                            <div class="slide-description">Рейтинг кинотеатров с лучшим звуком и изображением по версии кинокритиков.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Слайд 3 -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Звездные войны" 
+                             class="slide-image"
+                             onerror="this.onerror=null; this.src='https://placehold.co/1200x500/1a1a1a/d32f2f?text=Звездные+войны';">
+                        <div class="slide-info">
+                            <div class="slide-title">Звездные войны: Новый сериал</div>
+                            <div class="slide-description">Дисней анонсировал новый сериал по вселенной "Звездных войн" с бюджетом в $200 млн.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Слайд 4 -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1574269864106-97a9120c79d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Кинопремьера" 
+                             class="slide-image"
+                             onerror="this.onerror=null; this.src='https://placehold.co/1200x500/1a1a1a/d32f2f?text=Каннский+фестиваль';">
+                        <div class="slide-info">
+                            <div class="slide-title">Каннский кинофестиваль 2024</div>
+                            <div class="slide-description">Обзор главных премьер и победителей 77-го Каннского кинофестиваля.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Управление слайдером -->
+            <div class="slider-controls">
+                <button class="slider-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="slider-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <!-- Точки для навигации -->
+            <div class="slider-dots" id="sliderDots">
+                <!-- Точки будут добавлены через JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Секция с центральной картинкой -->
+        <section class="center-image-section">
+            <div class="center-image-title">Классика мирового кинематографа</div>
+            <img src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                 alt="Киноаппарат и кинолента" 
+                 class="center-image"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x400/1a1a1a/d32f2f?text=Классика+кино';">
+            <div class="movie-rating" style="margin-top: 15px;">Фильмы, которые вошли в историю</div>
+        </section>
+    </div>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <p>© 2023 Кинотека - мир кино. Все права защищены.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Сайт создан для настоящих ценителей кинематографа</p>
+            <div class="footer-links">
+                <a href="#">О проекте</a> | 
+                <a href="#">Партнеры</a> | 
+                <a href="#">Реклама</a> | 
+                <a href="#">Политика конфиденциальности</a>
+            </div>
+            <div style="margin-top: 15px;">
+                <i class="fab fa-vk" style="margin: 0 10px; font-size: 1.2rem; color: #d32f2f; cursor: pointer;"></i>
+                <i class="fab fa-telegram" style="margin: 0 10px; font-size: 1.2rem; color: #d32f2f; cursor: pointer;"></i>
+                <i class="fab fa-youtube" style="margin: 0 10px; font-size: 1.2rem; color: #d32f2f; cursor: pointer;"></i>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Слайдер с картинками
+        const slides = document.getElementById('slides');
+        const slidesCount = document.querySelectorAll('.slide').length;
+        const sliderDots = document.getElementById('sliderDots');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentSlide = 0;
+        
+        // Создаем точки для навигации
+        for (let i = 0; i < slidesCount; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            sliderDots.appendChild(dot);
+        }
+        
+        // Функция перехода к конкретному слайду
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateSlider();
+        }
+        
+        // Функция обновления слайдера
+        function updateSlider() {
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Обновляем активную точку
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        // Переход к следующему слайду
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slidesCount;
+            updateSlider();
+        }
+        
+        // Переход к предыдущему слайду
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slidesCount) % slidesCount;
+            updateSlider();
+        }
+        
+        // Автоматическая смена слайдов каждые 5 секунд
+        let slideInterval = setInterval(nextSlide, 5000);
+        
+        // Остановка автосмены при наведении на слайдер
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
+        
+        // Возобновление автосмены при уходе курсора
+        sliderContainer.addEventListener('mouseleave', () => {
+            slideInterval = setInterval(nextSlide, 5000);
+        });
+        
+        // Назначение обработчиков кнопок
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Обработчики для навигационных кнопок
+        const navButtons = document.querySelectorAll('.nav-button');
+        
+        navButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Убираем активный класс у всех кнопок
+                navButtons.forEach(btn => btn.style.transform = 'translateY(0)');
+                
+                // Добавляем эффект нажатия
+                this.style.transform = 'translateY(0)';
+                this.style.backgroundColor = '#d32f2f';
+                
+                // В реальном сайте здесь была бы навигация на другие страницы
+                alert(`Раздел "${this.textContent}" находится в разработке. В реальном сайте это перенаправило бы вас на соответствующую страницу.`);
+                
+                // Возвращаем цвет через короткое время
+                setTimeout(() => {
+                    if(this.textContent === "Новинки" || this.textContent === "Режиссеры") {
+                        this.style.backgroundColor = '#1a1a1a';
+                    } else {
+                        this.style.backgroundColor = '#222';
+                    }
+                }, 300);
+            });
+        });
+        
+        // Эффект для иконок в футере
+        const socialIcons = document.querySelectorAll('.fab');
+        socialIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.color = '#ff6b6b';
+                this.style.transform = 'scale(1.2)';
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.style.color = '#d32f2f';
+                this.style.transform = 'scale(1)';
+            });
+            
+            icon.addEventListener('click', function() {
+                alert(`Социальная сеть ${this.className.split('-')[1]} в разработке`);
+            });
+        });
+        
+        // Проверка загрузки изображений и добавление запасных вариантов
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // Проверяем, загрузилось ли изображение
+                if (img.complete && img.naturalHeight === 0) {
+                    // Изображение не загрузилось, заменяем на запасной вариант
+                    const altText = img.alt || 'Изображение фильма';
+                    const width = img.clientWidth || 600;
+                    const height = img.clientHeight || 400;
+                    img.src = `https://placehold.co/${width}x${height}/1a1a1a/d32f2f?text=${encodeURIComponent(altText)}`;
+                }
+                
+                // Добавляем обработчик ошибок для каждого изображения
+                img.addEventListener('error', function() {
+                    const altText = this.alt || 'Изображение фильма';
+                    const width = this.clientWidth || 600;
+                    const height = this.clientHeight || 400;
+                    this.src = `https://placehold.co/${width}x${height}/1a1a1a/d32f2f?text=${encodeURIComponent(altText)}`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
